@@ -17,4 +17,3 @@ class MenuItems(models.Model):
 
 #class Ingredient(models.Model):
 #    name = models.CharField(max_length=100, null=True)
-    
