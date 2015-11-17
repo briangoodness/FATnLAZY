@@ -2,13 +2,16 @@
 
 ## Initialize Django/Postgres Environment
 
+### Python 3.4.0
+
 ### install on computer
 
 - sudo apt-get install libpq-dev python-dev
 - sudo apt-get install postgresql postgresql-contrib
 
 ### create virtualenv, install project dependencies in virtualenv:
-- virtualenv webarch
+#### (use 'which python' to find location of Python; 'webarch' is name of virtualenv in this example.)
+- virtualenv -p /usr/bin/python3.4 webarch
 - source webarch/bin/activate
 - pip install -r requirements.txt
 - python manage.py startproject fatandlazy .
