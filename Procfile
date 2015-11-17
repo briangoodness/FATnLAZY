@@ -1,1 +1,1 @@
-web: gunicorn fathomless-shore-6328.wsgi
+web: gunicorn fatandlazy.wsgi --log-file -
