@@ -1,4 +1,5 @@
 from django.db import models
+from djgeojson.fields import PointField
 
 # Create your models here.
 class Restaurant(models.Model):
@@ -17,3 +18,15 @@ class MenuItems(models.Model):
 
 #class Ingredient(models.Model):
 #    name = models.CharField(max_length=100, null=True)
+
+class LazySpot(models.Model):
+
+    geom = PointField()
+    description = models.TextField()
+    #picture = models.ImageField()
+
+    @property
+    def popupContent(self):
+      return '<img src="{}" /><p><{}</p>'.format(
+          #self.picture.url,
+          self.description)
