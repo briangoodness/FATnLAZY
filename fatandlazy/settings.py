@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'djgeojson',
     'gmaps',
     'yelp',
+    'fatnlazyapp',
     'django_tables2',
     'storages',
 )
@@ -101,11 +102,13 @@ STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
 # instead of hardcoding credentials, use config variables
 # Parse database configuration from $DATABASE_URL
-#import dj_database_url
-#DATABASES = {'default': dj_database_url.config(default=os.environ['DATABASE_URL'])}
+
+import dj_database_url
+DATABASES = {'default': dj_database_url.config(default=os.environ['DATABASE_URL'])}
 
 # Enable Persistent Connections
-#DATABASES['default']['CONN_MAX_AGE'] = 500
+DATABASES['default']['CONN_MAX_AGE'] = 500
+
 '''
 DATABASES = {
     'default': {
@@ -137,5 +140,5 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 STATIC_URL = '/static/'
