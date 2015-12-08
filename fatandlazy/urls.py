@@ -23,5 +23,5 @@ from yelp import views as yelp_views
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', yelp_views.get_results, name='yelp-form'),
-    #url(r'^map/$', locations_views.map, name='leaflet-map')
+    url(r'^map/$', yelp_views.uber_map, name='uber-map')
 ]

@@ -29,6 +29,9 @@ class ResultsTable(tables.Table):
     business_lat = tables.Column()
 
 # Create your views here.
+def uber_map(request):
+    return render(request, 'uber-map.html')
+
 def index(request):
     return HttpResponse("<b>Yelp Results Page!<b>")
 
