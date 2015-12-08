@@ -13,21 +13,39 @@ from django.http import JsonResponse
 import os
 import rauth
 
+import json
+
+import django_tables2 as tables
+
+
+class ResultsTable(tables.Table):
+    name = tables.Column()
+    address = tables.Column()
+    phone = tables.Column()
+    url = tables.Column()
+    rating = tables.Column()
+    distance = tables.Column()
+    business_long = tables.Column()
+    business_lat = tables.Column()
+
 # Create your views here.
+def uber_map(request):
+    return render(request, 'uber-map.html')
+
 def index(request):
     return HttpResponse("<b>Yelp Results Page!<b>")
 
-def get_search_parameters(lat,long, radius="2000", results_limit="1"):
+def get_search_parameters(lat,long, keyword='restaurant', radius="2000", results_limit="5"):
     #See the Yelp API for more details
     params = {}
-    params["term"] = "restaurant"
+    #params["term"] = "restaurant"
+    params["term"] = keyword
     params["ll"] = "{},{}".format(str(lat),str(long))
-    #params["location"] = 'Berkeley, California'
     params["radius_filter"] = radius
     params["limit"] = results_limit
     return params
 
-def get_yelp_results(params):
+def call_yelp_api(params):
 
     # retrieve envronmental variables
     consumer_key = os.environ['YELP_CONSUMER_KEY']
@@ -62,22 +80,45 @@ def get_results(request):
         if form.is_valid():
             # process the data in form.cleaned_data as required
 
-            params = get_search_parameters(lat,long)
-            results = get_yelp_results(params)
+            if not request.POST.get('num_results', ''):
+                num_results = 1
+            else:
+                num_results = request.POST['num_results']
 
-            # redirect to a new URL:
-            return HttpResponseRedirect('/location/')
+            if not request.POST.get('keyword', ''):
+                params = get_search_parameters(37.8717,-122.2728, results_limit=num_results) # initially, user's location is hardcoded to Berkeley
+            else:
+                # pass-in user's keyword in form, if entered
+                params = get_search_parameters(37.8717,-122.2728, request.POST['keyword'], results_limit=num_results) # initially, user's location is hardcoded to Berkeley
+
+            # retrieve results
+            results = call_yelp_api(params)
+            #print(results)
+
+            # extract resultsname'] = yelp_listing['name']
+            businesses = results['businesses']
+            yelp_result_set = []
+
+            for business in businesses:
+                business_result = {}
+                business_result['name'] = business['name']
+                business_result['address'] = business['location']['address'][0]
+                business_result['phone'] = business['phone']
+                business_result['url'] = business['url']
+                business_result['rating'] = business['rating']
+                business_result['distance'] = business['distance']
+                business_result['business_long'] = business['location']['coordinate']['longitude']
+                business_result['business_lat'] = business['location']['coordinate']['latitude']
+                yelp_result_set.append(business_result)
+
+            # render HTML page:
+            return render(request, 'yelp-results.html', {'form': form, 'table':ResultsTable(yelp_result_set) })
 
     # if a GET (or any other method) we'll create a blank form
     else:
         form = YelpForm()
-        params = get_search_parameters(37.8717,-122.2728) # pass-in parameters for user's location
-        print(params)
-        results = get_yelp_results(params)
-        #results = JsonResponse(get_yelp_results(params))
-        #print(results.content)
+        params = get_search_parameters(37.8717,-122.2728) # initially, user's location is hardcoded to Berkeley
+        #print(params)
+        results = call_yelp_api(params)
 
-    return render(request, 'yelp-results.html', {'form': form, 'results':results})
-
-#def post_results(request, query):
-#    return HttpResponse("<b>Yelp Results Page!<b><br>%s" %s query)
+    return render(request, 'yelp-results.html', {'form': form, 'table':ResultsTable({})})
