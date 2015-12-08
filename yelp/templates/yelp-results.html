@@ -1,0 +1,14 @@
+<html>
+  <head>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+  </head>
+  <body>
+    <h1>Find a location</h1>
+    <form action="/yelp-results/" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Go!" />
+    </form>
+    {{ results }}
+  </body>
+</html>

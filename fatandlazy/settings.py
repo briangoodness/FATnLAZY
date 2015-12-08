@@ -40,6 +40,8 @@ INSTALLED_APPS = (
     'locations',
     'leaflet',
     'djgeojson',
+    'gmaps',
+    'yelp',
 )
 
 MIDDLEWARE_CLASSES = (

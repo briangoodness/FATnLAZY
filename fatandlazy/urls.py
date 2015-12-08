@@ -16,10 +16,13 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 
-from locations import views
+from locations import views as locations_views
+from gmaps import views as gmaps_views
+from yelp import views as yelp_views
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', views.index, name='index'),
-    url(r'^map/$', views.map, name='leaflet-map')
+    url(r'^$', yelp_views.get_results, name='yelp-form'),
+    #url(r'^map/$', locations_views.map, name='leaflet-map')
+    #url(r'^yelp-results/?q=(\w+)$', yelp_views.post_results, name='yelp-results')
 ]
