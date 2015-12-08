@@ -34,6 +34,7 @@
 var resultsMap;
 
 function initialize() {
+
         var mapCanvas = document.getElementById('map');
         var mapOptions = {
           center: new google.maps.LatLng(44.5403, -78.5463),
@@ -86,6 +87,7 @@ function initialize() {
 }
 
 function searchPlace(){
+
   var geocoder = new google.maps.Geocoder();
 
   var addressBar = (document.getElementById('newLocation'));
@@ -117,6 +119,7 @@ function searchPlace(){
 }
 
 function searchFood(){
+
   var geocoder = new google.maps.Geocoder();
   var address = '1828 Walnut St., Berkeley, CA, USA';
 
