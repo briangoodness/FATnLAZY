@@ -45,6 +45,7 @@ INSTALLED_APPS = (
     'fatnlazyapp',
     'django_tables2',
     'storages',
+    'widget_tweaks',
 )
 
 MIDDLEWARE_CLASSES = (

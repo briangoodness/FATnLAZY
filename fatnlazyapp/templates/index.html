@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load widget_tweaks %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -102,10 +103,19 @@
 
                     <p class="text-faded">Enter your location and get started!!!</p>
 
-                    <form action="map_search.html">
+                    <!-- <form action="map_search.html">
                         <input type="text" name="Location" class="form-control">
                         <br><br>
                         <input type="submit" value="Get Started!" class="btn btn-default btn-xl">
+                    </form> -->
+                    <form action="location/" method="post">
+                        {% csrf_token %}
+                        <!-- {{ form.as_p }} -->
+                        <p>
+                            {{ form.location|add_class:"form-control" }}
+                            {{ form.location.errors }}
+                        </p>
+                        <input type="submit" value="Get Started!" class="btn btn-default btn-xl"/>
                     </form>
                     <!-- <a href="map_search.html" class="btn btn-default btn-xl">Get Started!</a> -->
                 </div>
