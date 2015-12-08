@@ -24,5 +24,4 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', yelp_views.get_results, name='yelp-form'),
     #url(r'^map/$', locations_views.map, name='leaflet-map')
-    #url(r'^yelp-results/?q=(\w+)$', yelp_views.post_results, name='yelp-results')
 ]
