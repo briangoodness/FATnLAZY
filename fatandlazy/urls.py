@@ -32,7 +32,6 @@ urlpatterns = [
     # url(r'^$', yelp_views.get_results, name='yelp-form'),
     #url(r'^map/$', locations_views.map, name='leaflet-map')
     #url(r'^yelp-results/?q=(\w+)$', yelp_views.post_results, name='yelp-results')
-    url(r'^$', yelp_views.get_results, name='yelp-form'),
+    url(r'^yelp/$', yelp_views.get_results, name='yelp-form'),
     url(r'^map/$', yelp_views.uber_map, name='uber-map')
-] 
-
+]
