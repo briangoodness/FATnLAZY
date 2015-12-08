@@ -21,14 +21,13 @@ from locations import views as locations_views
 from gmaps import views as gmaps_views
 from yelp import views as yelp_views
 from fatnlazyapp import views as fnl_views
-import settings
+#import settings
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
 
     url(r'^$', fnl_views.index, name='index'),
-    url(r'^currentlocation$', fnl_views.currentlocation, name='currentlocation'),
-    (r'(?:.*?/)?(?P<path>(css|js|img)/.+)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT }),
+    #url(r'^currentlocation$', fnl_views.currentlocation, name='currentlocation'), (r'(?:.*?/)?(?P<path>(css|js|img)/.+)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT }),
     # url(r'^$', yelp_views.get_results, name='yelp-form'),
     #url(r'^map/$', locations_views.map, name='leaflet-map')
     #url(r'^yelp-results/?q=(\w+)$', yelp_views.post_results, name='yelp-results')
