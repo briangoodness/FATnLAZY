@@ -32,7 +32,10 @@
     <link rel="stylesheet" href="{% static 'css/creative.css' %}" type="text/css">
 
     <!--Google Maps JS API-->
-    <script src="https://maps.googleapis.com/maps/api/js"></script>
+    <script src="{% static 'https://maps.googleapis.com/maps/api/js' %}"></script>
+
+    <!--Places API-->   
+    <script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
 
     <script src="{% static 'js/maps.js' %}"></script>
 
@@ -64,7 +67,7 @@
              <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a class="page-scroll" href="index.html">Home</a>
+                        <a class="page-scroll" href="/">Home</a>
                     </li>
                    
                     <li>
@@ -93,10 +96,15 @@
                     <div class="col-lg-8 col-lg-offset-2 text-center">
                        <h2 class="section-heading">Enter what you would like to eat to locate nearby restaurants!!</h2>
                        <br>
-                       <form action="map_search.html">
-                            <input type="text" name="Cuisine" class="form-control">
+                       <form action="#">
+                            <input type="text" name="Cuisine" class="form-control" placeholder="What do you want to eat?">
                             <br><br>
-                            <input type="submit" value="Search" class="btn btn-default btn-xl">
+                            <!-- <input type="submit" value="Search" class="btn btn-default btn-xl"> -->
+                            <input id="searchFood" type="button" value="searchFood"  class="btn btn-default btn-xl"/>
+                            <br><br><br><br>
+                            <input id="newLocation" class="form-control" type="text" placeholder="Where do you want to go?">
+                            <br><br>
+                            <input id="searchPlace" type="button" value="searchPlace"  class="btn btn-default btn-xl"/>
                         </form>
                     </div>
                 </div>
