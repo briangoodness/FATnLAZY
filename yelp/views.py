@@ -42,7 +42,7 @@ def get_search_parameters(lat,long, keyword='restaurant', radius="2000", results
     params["limit"] = results_limit
     return params
 
-def get_yelp_results(params):
+def call_yelp_api(params):
 
     # retrieve envronmental variables
     consumer_key = os.environ['YELP_CONSUMER_KEY']
@@ -89,8 +89,8 @@ def get_results(request):
                 params = get_search_parameters(37.8717,-122.2728, request.POST['keyword'], results_limit=num_results) # initially, user's location is hardcoded to Berkeley
 
             # retrieve results
-            results = get_yelp_results(params)
-            print(results)
+            results = call_yelp_api(params)
+            #print(results)
 
             # extract resultsname'] = yelp_listing['name']
             businesses = results['businesses']
@@ -108,22 +108,14 @@ def get_results(request):
                 business_result['business_lat'] = business['location']['coordinate']['latitude']
                 yelp_result_set.append(business_result)
 
-            #for row in yelp_result_set:
-            #    print('%s: %s' % (row, yelp_listing[row]))
-
-            # construct table
-            #queryset = Simple.objects.all()
-            #table = SimpleTable(queryset)
-
             # render HTML page:
-            # return render(request, 'yelp-results.html', {'form': form, results':yelp_listing})
             return render(request, 'yelp-results.html', {'form': form, 'table':ResultsTable(yelp_result_set) })
 
     # if a GET (or any other method) we'll create a blank form
     else:
         form = YelpForm()
         params = get_search_parameters(37.8717,-122.2728) # initially, user's location is hardcoded to Berkeley
-        print(params)
-        results = get_yelp_results(params)
+        #print(params)
+        results = call_yelp_api(params)
 
     return render(request, 'yelp-results.html', {'form': form, 'table':ResultsTable({})})
