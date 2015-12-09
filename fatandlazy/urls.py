@@ -32,5 +32,7 @@ urlpatterns = [
     url(r'^location/$', fnl_views.currentlocation, name='google-form'),
     url(r'^yelp/$', yelp_views.get_results, name='yelp-form'),
     url(r'^map/$', yelp_views.uber_map, name='uber-map'),
+    url(r'^get_results$', yelp_views.get_results, name='get_results'),
     url(r'^$', fnl_views.index, name='index'),
+
 ]

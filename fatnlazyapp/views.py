@@ -16,7 +16,7 @@ def index(request):
         if form.is_valid():
             # process the data in form.cleaned_data as required
             return render(request, 'index.html', {'form': form })
-        else: 
+        else:
         	print('Invalid entry!')
     else:
         form = GoogleForm()
