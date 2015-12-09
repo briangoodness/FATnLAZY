@@ -35,10 +35,12 @@
     <!--Google Maps JS API-->
     <script src="https://maps.googleapis.com/maps/api/js"></script>
 
-    <!--Places API-->   
+    <!--Places API-->
     <script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
 
     <script src="{% static 'js/maps.js' %}"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -70,7 +72,7 @@
                     <li>
                         <a class="page-scroll" href="/">Home</a>
                     </li>
-                   
+
                     <li>
                         <a class="page-scroll" href="#about">About</a>
                     </li>
@@ -88,7 +90,7 @@
             <!-- /.navbar-collapse -->
         </div>
         <!-- /.container-fluid -->
-        
+
     </nav>
 
         <section class="bg-primary" id="about">
@@ -98,14 +100,15 @@
                        <h2 class="section-heading">Enter what you would like to eat to locate nearby restaurants!!</h2>
                        <br>
                        <form action="#">
-                            <input type="text" name="Cuisine" class="form-control" placeholder="What do you want to eat?">
+                         {% csrf_token %}
+                            <input type="text" id="cuisine" class="form-control" placeholder="What do you want to eat?">
                             <br><br>
                             <!-- <input type="submit" value="Search" class="btn btn-default btn-xl"> -->
-                            <input id="searchFood" type="button" value="searchFood"  class="btn btn-default btn-xl"/>
+                            <input id="searchFood" type="button" value="search Food"  class="btn btn-default btn-xl"/>
                             <br><br><br><br>
                             <input id="newLocation" class="form-control" type="text" placeholder="Where do you want to go?">
                             <br><br>
-                            <input id="searchPlace" type="button" value="searchPlace"  class="btn btn-default btn-xl"/>
+                            <input id="changeLocation" type="button" value="change Location"  class="btn btn-default btn-xl"/>
                         </form>
                     </div>
                 </div>

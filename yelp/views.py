@@ -85,11 +85,27 @@ def get_results(request):
             else:
                 num_results = request.POST['num_results']
 
+            if not request.POST.get('lat', ''):
+                lat = 37.8717
+            else:
+                lat = request.POST['lat']
+
+            if not request.POST.get('lng', ''):
+                lng = -122.2728
+            else:
+                lng = request.POST['lng']
+
             if not request.POST.get('keyword', ''):
-                params = get_search_parameters(37.8717,-122.2728, results_limit=num_results) # initially, user's location is hardcoded to Berkeley
+                params = get_search_parameters(lat,lng, results_limit=num_results) # initially, user's location is hardcoded to Berkeley
             else:
                 # pass-in user's keyword in form, if entered
-                params = get_search_parameters(37.8717,-122.2728, request.POST['keyword'], results_limit=num_results) # initially, user's location is hardcoded to Berkeley
+                params = get_search_parameters(lat,lng, request.POST['keyword'], results_limit=num_results) # initially, user's location is hardcoded to Berkeley
+            # if not request.POST.get('keyword', ''):
+            #     params = get_search_parameters(37.8717,-122.2728, results_limit=num_results) # initially, user's location is hardcoded to Berkeley
+            # else:
+            #     # pass-in user's keyword in form, if entered
+            #     params = get_search_parameters(37.8717,-122.2728, request.POST['keyword'], results_limit=num_results) # initially, user's location is hardcoded to Berkeley
+
 
             # retrieve results
             results = call_yelp_api(params)
