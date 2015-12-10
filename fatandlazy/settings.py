@@ -124,4 +124,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 STATIC_URL = '/static/'
+<<<<<<< HEAD
 # STATIC_URL = "https://s3-us-west-1.amazonaws.com/253-web-arch/static/"
+=======
+#STATIC_URL = "https://s3-us-west-1.amazonaws.com/253-web-arch/static/"
+>>>>>>> 311a60058189b325a6e9050bc4ffa1127f6b6e0c
