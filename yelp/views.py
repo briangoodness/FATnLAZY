@@ -152,9 +152,10 @@ def get_results(request):
                 lat = float(row['business_lat'])
                 longitude = float(row['business_long'])
                 row['uber_estimate'] = call_uber_api(lat, longitude)
-                
+
             # render HTML page:
-            return render(request, 'yelp-results.html', {'form': form, 'table':ResultsTable(yelp_result_set) })
+            # return render(request, 'yelp-results.html', {'form': form, 'table':ResultsTable(yelp_result_set) })
+            return JsonResponse({'response' : yelp_result_set})
 
     # if a GET (or any other method) we'll create a blank form
     else:
@@ -163,4 +164,5 @@ def get_results(request):
         #print(params)
         results = call_yelp_api(params)
 
-    return render(request, 'yelp-results.html', {'form': form, 'table':ResultsTable({})})
+    # return render(request, 'yelp-results.html', {'form': form, 'table':ResultsTable({})})
+    return JsonResponse({'response' : yelp_result_set})
