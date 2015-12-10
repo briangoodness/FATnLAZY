@@ -67,8 +67,9 @@ def get_search_parameters(lat,long, keyword='restaurant', radius="2000", results
     params["radius_filter"] = radius
     params["limit"] = results_limit
     return params
-def url_shorterner(long_url):
-    s = string.lowercase + string.uppercase
+
+def url_shortener():
+    s = string.ascii_lowercase + string.ascii_uppercase
     short_url = ''.join(random.sample(s,10))
     return short_url
     # while db.has_key(short_url):
@@ -160,7 +161,7 @@ def get_results(request):
                 lat = float(row['business_lat'])
                 longitude = float(row['business_long'])
                 row['uber_estimate'] = call_uber_api(lat, longitude)
-                row['short_url'] = url_shorterner(row['url'])
+                row['short_url'] = url_shortener()
 
             # render HTML page:
             # return render(request, 'yelp-results.html', {'form': form, 'table':ResultsTable(yelp_result_set) })
