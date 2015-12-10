@@ -4,6 +4,7 @@ var currentLong;
 var homeMarker;
 var searchResults = [];
 var infoWindows = [];
+var yelp_results;
 
 function initialize() {
 
@@ -109,9 +110,9 @@ function searchPlace() {
         infowindow.open(resultsMap, homeMarker);
       });
 
-      if ((!resultsMap.getBounds().contains(homeMarker.getPosition()))) {
+      // if ((!resultsMap.getBounds().contains(homeMarker.getPosition()))) {
         resultsMap.setCenter(homeMarker.getPosition());
-      }
+      // }
 
       if (searchResults.length > 0) {
         for (index = 0; index < searchResults.length; index++) {
@@ -181,9 +182,16 @@ function searchFood() {
         content: contentString
       });
 
-      google.maps.event.addListener(marker, 'click', function() {
-        infowindow.open(resultsMap, marker);
-      });
+      google.maps.event.addListener(marker, 'click', (function(marker, i) {
+        return function() {
+          infowindow.setContent('<p>' +'<b>' + yelp_results[i]['name']+ '</b>' +': An Uber is available at '+'<b>'+ yelp_results[i]['uber_estimate']+'</b>' +' to take you here.' +'</p>' + '<p>'+'<b>'+ yelp_results[i]['short_url']+'</b>'+'</p>');
+          infowindow.open(resultsMap, marker);
+        }
+      })(marker, i));
+
+      // google.maps.event.addListener(marker, 'click', function() {
+      //   infowindow.open(resultsMap, marker);
+      // });
 
       marker.setMap(resultsMap);
 
@@ -191,8 +199,22 @@ function searchFood() {
       searchResults.push(marker)
 
     }
-
+    autoCenter();
   });
+
+
+}
+
+function autoCenter() {
+      //  Create a new viewpoint bound
+      var bounds = new google.maps.LatLngBounds();
+      //  Go through each...
+      for (var i = 0; i < searchResults.length; i++) {
+				bounds.extend(searchResults[i].getPosition());
+      }
+      //  Fit these bounds to the map
+      //resultsMap.setCenter(bounds.getCenter());
+       resultsMap.fitBounds(bounds);
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
