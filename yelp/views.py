@@ -17,6 +17,26 @@ import json
 
 import django_tables2 as tables
 
+import requests
+from rauth import OAuth2Service
+
+def call_uber_api(business_lat, business_long):
+
+    # This access_token is what we'll use to make requests
+    access_token = 'wvY41GSscmHLZRvu2VyEQM4QbB3bYIZjW5CwfSPG'
+
+    url = 'https://api.uber.com/v1/estimates/price'
+    parameters = {
+        'server_token' : '%s' % access_token,
+        'start_latitude': '37.8717',
+        'start_longitude': '-122.2728',
+        'end_latitude': business_lat,
+        'end_longitude': business_long,
+    }
+
+    response = requests.get(url,params=parameters)
+    data = response.json()
+    return data['prices'][0]['estimate']
 
 class ResultsTable(tables.Table):
     name = tables.Column()
@@ -27,6 +47,7 @@ class ResultsTable(tables.Table):
     distance = tables.Column()
     business_long = tables.Column()
     business_lat = tables.Column()
+    uber_estimate = tables.Column()
 
 # Create your views here.
 def uber_map(request):
@@ -127,6 +148,11 @@ def get_results(request):
                 business_result['business_lat'] = business['location']['coordinate']['latitude']
                 yelp_result_set.append(business_result)
 
+            for row in yelp_result_set:
+                lat = float(row['business_lat'])
+                longitude = float(row['business_long'])
+                row['uber_estimate'] = call_uber_api(lat, longitude)
+                
             # render HTML page:
             return render(request, 'yelp-results.html', {'form': form, 'table':ResultsTable(yelp_result_set) })
 
