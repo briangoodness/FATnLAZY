@@ -29,6 +29,7 @@
 var resultsMap;
 var currentLat;
 var currentLong;
+var marker;
 
 function initialize() {
 
@@ -55,15 +56,23 @@ function initialize() {
       currentLat =lat;
       var point = new google.maps.LatLng(lat, lng);
       resultsMap.setCenter(point);
-      var markerImage = 'http://www.mapsmarker.com/wp-content/uploads/leaflet-maps-marker-icons/bar_coktail.png';
-      var marker = new google.maps.Marker({
+      // var markerImage = 'http://www.mapsmarker.com/wp-content/uploads/leaflet-maps-marker-icons/bar_coktail.png';
+      marker = new google.maps.Marker({
         map: resultsMap,
         position: point,
-        title: "Current Location!!!",
-        icon: markerImage
+        // icon: markerImage
+      });
+      var contentString = 'Current Location!!!';
+      var infowindow = new google.maps.InfoWindow({
+        content: contentString
+      });
+      
+      google.maps.event.addListener(marker, 'click', function() {
+        infowindow.open(resultsMap, marker);
       });
     };
-    
+
+
     var geoError = function(error) {
       console.log('Error occurred. Error code: ' + error.code);
       // error.code can be:
@@ -77,6 +86,8 @@ function initialize() {
   } else {
     alert('Geolocation is not supported for this Browser/OS version yet.');
   }
+
+ 
 
   document.getElementById("searchFood").onclick = searchFood;
 
@@ -105,22 +116,26 @@ function searchPlace() {
       newLocation = results[0].geometry.location;
       currentLat = newLocation.lat();
       currentLong = newLocation.lng();
-
-      // var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
-      // var contentString = 'You are here';
-      var markerImage = 'http://www.mapsmarker.com/wp-content/uploads/leaflet-maps-marker-icons/bar_coktail.png';
       
-      // var infowindow = new google.maps.InfoWindow({
-      // content: contentString
-      // });
-
-      var marker = new google.maps.Marker({
+      if (marker != null) {
+            marker.setMap(null);
+        }
+      marker = new google.maps.Marker({
         position: newLocation,
-        map: resultsMap,
-        icon: markerImage
+        // map: resultsMap,
+        // icon: markerImage
       });
 
-       // marker.setMap(resultsMap);
+      marker.setMap(resultsMap);
+       
+      var contentString = 'Current Location!!!';
+      var infowindow = new google.maps.InfoWindow({
+        content: contentString
+      });
+      
+      google.maps.event.addListener(marker, 'click', function() {
+        infowindow.open(resultsMap, marker);
+      }); 
 
       if ((!resultsMap.getBounds().contains(marker.getPosition()))) {
         resultsMap.setCenter(marker.getPosition());
