@@ -20,6 +20,8 @@ import django_tables2 as tables
 import requests
 from rauth import OAuth2Service
 
+import string, random
+
 def call_uber_api(business_lat, business_long):
 
     # This access_token is what we'll use to make requests
@@ -65,6 +67,12 @@ def get_search_parameters(lat,long, keyword='restaurant', radius="2000", results
     params["radius_filter"] = radius
     params["limit"] = results_limit
     return params
+def url_shorterner(long_url):
+    s = string.lowercase + string.uppercase
+    short_url = ''.join(random.sample(s,10))
+    return short_url
+    # while db.has_key(short_url):
+    #     short_url = ''.join(random.sample(s,10))
 
 def call_yelp_api(params):
 
@@ -152,6 +160,7 @@ def get_results(request):
                 lat = float(row['business_lat'])
                 longitude = float(row['business_long'])
                 row['uber_estimate'] = call_uber_api(lat, longitude)
+                row['short_url'] = url_shorterner(row['url'])
 
             # render HTML page:
             # return render(request, 'yelp-results.html', {'form': form, 'table':ResultsTable(yelp_result_set) })
