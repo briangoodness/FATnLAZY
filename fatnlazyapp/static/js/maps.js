@@ -55,12 +55,15 @@ function initialize() {
       currentLat =lat;
       var point = new google.maps.LatLng(lat, lng);
       resultsMap.setCenter(point);
+      var markerImage = 'http://www.mapsmarker.com/wp-content/uploads/leaflet-maps-marker-icons/bar_coktail.png';
       var marker = new google.maps.Marker({
         map: resultsMap,
         position: point,
-        title: "Current Location!!!"
+        title: "Current Location!!!",
+        icon: markerImage
       });
     };
+    
     var geoError = function(error) {
       console.log('Error occurred. Error code: ' + error.code);
       // error.code can be:
@@ -99,16 +102,26 @@ function searchPlace() {
 
     if (status === google.maps.GeocoderStatus.OK) {
 
-      newLocation = results[0].geometry.location
-      currentLat = newLocation.lat()
-      currentLong = newLocation.lng()
+      newLocation = results[0].geometry.location;
+      currentLat = newLocation.lat();
+      currentLong = newLocation.lng();
+
+      // var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
+      // var contentString = 'You are here';
+      var markerImage = 'http://www.mapsmarker.com/wp-content/uploads/leaflet-maps-marker-icons/bar_coktail.png';
+      
+      // var infowindow = new google.maps.InfoWindow({
+      // content: contentString
+      // });
 
       var marker = new google.maps.Marker({
         position: newLocation,
-        title: "Current Location!!!"
+        map: resultsMap,
+        icon: markerImage
       });
 
-      marker.setMap(resultsMap);
+       // marker.setMap(resultsMap);
+
       if ((!resultsMap.getBounds().contains(marker.getPosition()))) {
         resultsMap.setCenter(marker.getPosition());
       }
