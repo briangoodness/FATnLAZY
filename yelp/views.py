@@ -22,6 +22,8 @@ from rauth import OAuth2Service
 
 import string, random
 
+from .models import Website
+
 def call_uber_api(business_lat, business_long):
 
     # This access_token is what we'll use to make requests
@@ -162,6 +164,8 @@ def get_results(request):
                 longitude = float(row['business_long'])
                 row['uber_estimate'] = call_uber_api(lat, longitude)
                 row['short_url'] = url_shortener()
+                # write to database (row['short_url'],row['url'])
+                Website(short_url=row['short_url'], long_url=row['url']).save()
 
             # render HTML page:
             # return render(request, 'yelp-results.html', {'form': form, 'table':ResultsTable(yelp_result_set) })

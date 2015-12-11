@@ -1,8 +1,11 @@
 from django.shortcuts import render
 
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
+
 from .forms import GoogleForm
 
+from yelp.models import Website
 
 def index(request):
     # return HttpResponse("Hello, world. You're at the polls index.")
@@ -29,3 +32,8 @@ def index(request):
 def currentlocation(request):
     # return HttpResponse("Hello, world. You're at the polls index.")
     return render(request, 'map_search.html')
+
+def short_url_redirect(request, short_url_arg):
+    long_url = Website.objects.get(short_url=short_url_arg)
+    print(long_url.long_url)
+    return HttpResponseRedirect(long_url.long_url)

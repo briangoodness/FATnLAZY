@@ -33,6 +33,6 @@ urlpatterns = [
     url(r'^yelp/$', yelp_views.get_results, name='yelp-form'),
     url(r'^map/$', yelp_views.uber_map, name='uber-map'),
     url(r'^get_results$', yelp_views.get_results, name='get_results'),
+    url(r'^(?P<short_url_arg>\w+)$', fnl_views.short_url_redirect, name='short-url-redirect'),
     url(r'^$', fnl_views.index, name='index'),
-
 ]
