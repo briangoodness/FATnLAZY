@@ -5,12 +5,14 @@ var homeMarker;
 var searchResults = [];
 var infoWindows = [];
 var yelp_results;
+var directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers: true});
+var directionsService = new google.maps.DirectionsService();
 
 function initialize() {
 
   var mapCanvas = document.getElementById('map');
   var mapOptions = {
-    center: new google.maps.LatLng(44.5403, -78.5463),
+    center: new google.maps.LatLng(37.8717, -122.2728),
     zoom: 16,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
@@ -71,6 +73,11 @@ function initialize() {
   autocomplete.bindTo('bounds', resultsMap);
 
   document.getElementById("changeLocation").onclick = searchPlace;
+
+  if(directionsDisplay != null) {
+    directionsDisplay.setMap(null);
+    directionsDisplay = null;
+  }
 }
 
 function searchPlace() {
@@ -123,6 +130,10 @@ function searchPlace() {
         }
         searchResults = [];
         infoWindows = [];
+        if(directionsDisplay != null) {
+            directionsDisplay.setMap(null);
+            directionsDisplay = null;
+        }
       }
 
     } else {
@@ -158,9 +169,15 @@ function searchFood() {
       }
       searchResults = [];
       infoWindows = [];
+
+      if(directionsDisplay != null) {
+          directionsDisplay.setMap(null);
+          directionsDisplay = null;
+      }
     }
 
     yelp_results = param['response']
+    directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers: true});
 
     var len = yelp_results.length;
     var markerImage = 'http://www.mapsmarker.com/wp-content/uploads/leaflet-maps-marker-icons/bar_coktail.png';
@@ -184,14 +201,29 @@ function searchFood() {
 
       google.maps.event.addListener(marker, 'click', (function(marker, i) {
         return function() {
-          infowindow.setContent('<p>' +'<b>' + yelp_results[i]['name']+ '</b>' +': An Uber is available at '+'<b>'+ yelp_results[i]['uber_estimate']+'</b>' +' to take you here.' +'</p>' + '<p>'+'<b>'+ yelp_results[i]['short_url']+'</b>'+'</p>');
+          infowindow.setContent('<p class="text-info">' +'<b>' + yelp_results[i]['name']+ '</b>' +': An Uber is available at '+'<b>'+ yelp_results[i]['uber_estimate']+'</b>' +' to take you here.' +'</p>' + '<p class="text-primary">'+'<b>'+ yelp_results[i]['short_url']+'</b>'+'</p>');
           infowindow.open(resultsMap, marker);
+
+
+            directionsDisplay.setMap(resultsMap);
+
+            var start = homeMarker.getPosition();
+            var end = marker.getPosition();
+            var request = {
+                origin:start,
+                destination:end,
+                travelMode: google.maps.TravelMode.DRIVING
+              };
+              directionsService.route(request, function(result, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                  directionsDisplay.setOptions({ preserveViewport: true });
+                  directionsDisplay.setDirections(result);
+                }
+            });
         }
       })(marker, i));
 
-      // google.maps.event.addListener(marker, 'click', function() {
-      //   infowindow.open(resultsMap, marker);
-      // });
+
 
       marker.setMap(resultsMap);
 

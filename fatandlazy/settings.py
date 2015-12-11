@@ -85,11 +85,11 @@ WSGI_APPLICATION = 'fatandlazy.wsgi.application'
 # instead of hardcoding credentials, use config variables
 # Parse database configuration from $DATABASE_URL
 
-#import dj_database_url
-#DATABASES = {'default': dj_database_url.config(default=os.environ['DATABASE_URL'])}
+import dj_database_url
+DATABASES = {'default': dj_database_url.config(default=os.environ['DATABASE_URL'])}
 
 # Enable Persistent Connections
-#DATABASES['default']['CONN_MAX_AGE'] = 500
+DATABASES['default']['CONN_MAX_AGE'] = 500
 
 '''
 DATABASES = {
