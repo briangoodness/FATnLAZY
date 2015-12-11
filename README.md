@@ -1,4 +1,6 @@
-# Fat And Lazy
+# Find'N'Ride
+
+## App Hosted @ : http://find-and-ride.herokuapp.com/
 
 ## Initialize Django/Postgres Environment
 
